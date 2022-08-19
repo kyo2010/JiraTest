@@ -1,0 +1,34 @@
+<data>
+    <projectKey>PR</projectKey>
+    <issues>
+        <issue>
+            <id>1</id>
+            <type>task</type>
+            <priority>Highest</priority>
+        </issue>
+        <issue>
+            <id>2</id>
+            <type>task</type>
+            <priority>Highest</priority>
+        </issue>
+        <issue>
+            <id>3</id>
+            <type>task</type>
+            <priority>Highest</priority>
+        </issue>
+    </issues>
+    <descriptions>
+        <description>
+            <id>1</id>
+            <summary>Task case 1</summary>
+        </description>
+        <description>
+            <id>2</id>
+            <summary>Task case 2</summary>
+        </description>
+        <description>
+            <id>3</id>
+            <summary>Task case 3</summary>
+        </description>
+    </descriptions>
+</data>

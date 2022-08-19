@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<h3>Thymeleaf Error Page</h3>
+   <p>Date
+     <div th:text="${timestamp}"/>
+   </p>
+   <p>Path
+       <div th:text="${path}"/>
+    </p>
+
+    <p>Error
+       <div th:text="${error}"/>
+    </p>
+
+<p>Status
+<div th:text="${status}"/>
+</p>
+
+<p>Message
+<div th:text="${message}"/>
+</p>
+
+
+<p>Exception
+<div th:text="${exception}"/>
+</p>
+
+<p>Trace
+<div th:text="${trace}"/>
+</p>
+
+</body>
+</html>
