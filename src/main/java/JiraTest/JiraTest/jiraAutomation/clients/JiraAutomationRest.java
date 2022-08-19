@@ -43,7 +43,8 @@ public class JiraAutomationRest {
             //  https://developer.atlassian.com/cloud/jira/platform/rest/v2/api-group-issue-priorities/
 
             HttpGet httpRequest = new HttpGet(uri);
-            httpRequest.addHeader("Authorization",getBasicAuthenticationHeader("k.kimlaev@gmail.com","o7TCmMsMnAdAFbTZu1QP1378"));
+            String jira_token = System.getenv().get("JIRA_TOKEN");
+            httpRequest.addHeader("Authorization",getBasicAuthenticationHeader("k.kimlaev@gmail.com",jira_token));
             response = client.execute(httpRequest);
             int statusCode = response.getStatusLine().getStatusCode();
             System.out.println("Response Code :"+ statusCode);
