@@ -75,7 +75,7 @@ public class JiraAutomationAPI implements IAutomationJiraClient {
     public String createIssue(String projectKey, Long issueType, String summary, Long priorityID) throws AutomationException{
         IssueInputBuilder issueBuilder = new IssueInputBuilder(projectKey, issueType,summary);
         issueBuilder.setDescription(summary);
-        //issueBuilder.setPriorityId((long)1);
+        issueBuilder.setPriorityId(priorityID);
         String key = restClient.getIssueClient().createIssue(issueBuilder.build())
                 .fail(e-> erorrMessageFromJIRA.set(e.getMessage()))
                 .claim().getKey();
