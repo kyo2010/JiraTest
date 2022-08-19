@@ -1,4 +1,4 @@
 # JiraTest
 
-Video witout sound... sorry(
+Video without sound... sorry(
 https://youtu.be/boLvRMMlE2I
