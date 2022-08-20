@@ -9,8 +9,7 @@ artifactId: jira-rest-java-client-core
 version: 4.0.0
 </pre>
 <code>
-Project prj = getRestClient().getProjectClient()
-             .getProject("PR").claim();
+Project prj = getRestClient().getProjectClient().getProject("PR").claim();
 </code>
 
 Error message:
