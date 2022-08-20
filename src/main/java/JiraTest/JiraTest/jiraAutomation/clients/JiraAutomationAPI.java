@@ -59,28 +59,21 @@ public class JiraAutomationAPI implements IAutomationJiraClient {
         restClient = null;
     }
 
-    AtomicReference<String> erorrMessageFromJIRA = new AtomicReference<>();
-
     public Map<String, Long> getTaskIdByName(String projectKey) throws AutomationException{
         Map<String, Long> result = new HashMap<>();
-        erorrMessageFromJIRA.set(null);
         Project project = restClient.getProjectClient().getProject(projectKey)
-                             .fail(e-> erorrMessageFromJIRA.set(e.getMessage()))
                              .claim();
-        if (erorrMessageFromJIRA.get()!=null) throw new AutomationException("",erorrMessageFromJIRA.get());
         project.getIssueTypes().forEach(it->result.put(it.getName(),it.getId()));
         return result;
     };
-
     public String createIssue(String projectKey, Long issueType, String summary, Long priorityID) throws AutomationException{
         IssueInputBuilder issueBuilder = new IssueInputBuilder(projectKey, issueType,summary);
         issueBuilder.setDescription(summary);
         issueBuilder.setPriorityId(priorityID);
         String key = restClient.getIssueClient().createIssue(issueBuilder.build())
-                .fail(e-> erorrMessageFromJIRA.set(e.getMessage()))
                 .claim().getKey();
-
-        if (erorrMessageFromJIRA.get()!=null) throw new AutomationException("",erorrMessageFromJIRA.get());
         return  key;
     };
+
+
 }

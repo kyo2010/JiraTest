@@ -82,6 +82,8 @@ public class mainController {
                 promiseProject.fail(e->{ failRestResult = e.getMessage();} );
                 result = "*** Project Info ***<br/>";
                 Project prj = promiseProject.claim();
+                //Project prj = jiraAutomation.getRestClient().getProjectClient().getProject("PR").claim();
+
                 if (prj!=null){
                     String prjInfo = "Project id:"+ prj.getId()+" key:"+prj.getKey();
                     result+=prjInfo+"<br/>";
