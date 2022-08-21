@@ -3,6 +3,12 @@
 Demonstration:
 https://youtu.be/zvdDsboQ9X8
 
+Two clients for automation:
+<pre>
+JiraAutomationJavaAPI - based on Java Jira API
+JiraAutomationRest - based on Jira API
+</pre>
+
 <pre>
 API problem:
 artifactId: jira-rest-java-client-core
