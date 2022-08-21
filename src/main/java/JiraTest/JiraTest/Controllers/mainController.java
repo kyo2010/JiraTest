@@ -25,7 +25,6 @@ public class mainController {
     private final JiraAutomationRest jiraAutomationRestAPI;
     private final XMLUploaderProcess xmlUploaderProcess;
 
-
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private String failRestResult = "";
 
