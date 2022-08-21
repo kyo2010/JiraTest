@@ -40,6 +40,7 @@ class JiraTestApplicationTests {
 		Assert.hasText(config.getJiraHost(),"Jira host is empty!");
 		Assert.hasText(config.getJiraUser(),"Jira user is empty!");
 		Assert.hasText(config.getJiraToken(),"Jira token is empty!");
+		// Check Java Jira API
 		Iterable<BasicProject> projects = jiraAutomation.getRestClient().getProjectClient().getAllProjects().get();
 		log.info("Projects : ");
 		for (BasicProject prj : projects){
