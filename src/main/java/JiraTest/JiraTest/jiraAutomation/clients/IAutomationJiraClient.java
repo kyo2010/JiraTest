@@ -1,4 +1,6 @@
-package JiraTest.JiraTest.jiraAutomation;
+package JiraTest.JiraTest.jiraAutomation.clients;
+
+import JiraTest.JiraTest.jiraAutomation.AutomationException;
 
 import java.util.Map;
 

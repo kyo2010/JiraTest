@@ -3,8 +3,6 @@ package JiraTest.JiraTest.jiraAutomation.clients;
 
 import JiraTest.JiraTest.Configs.JiraConfig;
 import JiraTest.JiraTest.jiraAutomation.AutomationException;
-import JiraTest.JiraTest.jiraAutomation.IAutomationJiraClient;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;

@@ -1,8 +1,7 @@
 package JiraTest.JiraTest.jiraAutomation.processes;
 
 import JiraTest.JiraTest.jiraAutomation.AutomationException;
-import JiraTest.JiraTest.jiraAutomation.IAutomationJiraClient;
-import JiraTest.JiraTest.jiraAutomation.IAutomationProcess;
+import JiraTest.JiraTest.jiraAutomation.clients.IAutomationJiraClient;
 import com.atlassian.jira.rest.client.api.RestClientException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,6 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

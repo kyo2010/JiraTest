@@ -2,7 +2,6 @@ package JiraTest.JiraTest.jiraAutomation.clients;
 
 import JiraTest.JiraTest.Configs.JiraConfig;
 import JiraTest.JiraTest.jiraAutomation.AutomationException;
-import JiraTest.JiraTest.jiraAutomation.IAutomationJiraClient;
 import com.atlassian.jira.rest.client.api.JiraRestClient;
 import com.atlassian.jira.rest.client.api.domain.Project;
 import com.atlassian.jira.rest.client.api.domain.input.IssueInputBuilder;
