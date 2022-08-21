@@ -125,10 +125,14 @@ public class XMLUploaderProcess implements IAutomationProcess {
             throw ae;
         }catch(RestClientException rce){
             throw new AutomationException("Automation is error",rce.getMessage());
-        }catch(Exception e){
-          String error_info = "Parse xml file is error.";
-          log.error(error_info, e);
-          throw new AutomationException("Error", e.getCause(), error_info);
+        }catch(RuntimeException rte) {
+            String error_info = "JIRA API exception";
+            log.error(error_info, rte);
+            throw new AutomationException("Error", rte.getCause(), error_info);
+        }catch(Exception e) {
+            String error_info = "Parse xml file is error.";
+            log.error(error_info, e);
+            throw new AutomationException("Error", e.getCause(), error_info);
         }
     }
 }

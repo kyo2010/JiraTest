@@ -17,11 +17,11 @@ import javax.annotation.PreDestroy;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.ExecutionException;
 
 @Component
 @RequiredArgsConstructor
-public class JiraAutomationAPI implements IAutomationJiraClient {
+public class JiraAutomationJavaAPI implements IAutomationJiraClient {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -60,19 +60,34 @@ public class JiraAutomationAPI implements IAutomationJiraClient {
     }
 
     public Map<String, Long> getTaskIdByName(String projectKey) throws AutomationException{
-        Map<String, Long> result = new HashMap<>();
-        Project project = restClient.getProjectClient().getProject(projectKey)
-                             .claim();
-        project.getIssueTypes().forEach(it->result.put(it.getName(),it.getId()));
-        return result;
+        try {
+            Map<String, Long> result = new HashMap<>();
+            Project project = restClient.getProjectClient().getProject(projectKey).get();
+            project.getIssueTypes().forEach(it -> result.put(it.getName(), it.getId()));
+            return result;
+        }catch (InterruptedException ie){
+            log.error("getTaskIdByName",ie);
+            throw new AutomationException("error",ie.getMessage());
+        }catch (ExecutionException ee){
+            log.error("getTaskIdByName",ee);
+            throw new AutomationException("error",ee.getMessage());
+        }
     };
     public String createIssue(String projectKey, Long issueType, String summary, Long priorityID) throws AutomationException{
-        IssueInputBuilder issueBuilder = new IssueInputBuilder(projectKey, issueType,summary);
-        issueBuilder.setDescription(summary);
-        issueBuilder.setPriorityId(priorityID);
-        String key = restClient.getIssueClient().createIssue(issueBuilder.build())
-                .claim().getKey();
-        return  key;
+        try {
+            IssueInputBuilder issueBuilder = new IssueInputBuilder(projectKey, issueType, summary);
+            issueBuilder.setDescription(summary);
+            issueBuilder.setPriorityId(priorityID);
+            String key = restClient.getIssueClient().createIssue(issueBuilder.build())
+                    .get().getKey();
+            return key;
+        }catch (InterruptedException ie){
+            log.error("getTaskIdByName",ie);
+            throw new AutomationException("error",ie.getMessage());
+        }catch (ExecutionException ee){
+            log.error("getTaskIdByName",ee);
+            throw new AutomationException("error",ee.getMessage());
+        }
     };
 
 
