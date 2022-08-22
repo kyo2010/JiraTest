@@ -51,10 +51,12 @@ class JiraTestApplicationTests {
 	void checkRestApi() throws AutomationException, JSONException {
 		Mockito.when(restExecuter.executeTask("rest/api/2/project/PR",null)).thenReturn(new JSONObject(
 				"{ issueTypes: [ { id: 3,name:'Task' }] }"));
+
 		Map<String,Long>issueTypes = jiraAutomationRest.getTaskIdByName("PR");
 		log.info("Issue Types : ");
 		issueTypes.forEach((k,v)->{log.info("  name:"+k+" id:"+v);});
-		Assert.notNull(issueTypes,"Check issues types for PR");
+
+		Assert.state(issueTypes.size()==1,"Check issueType size");
 	}
 
 	void checkJiraAvailable() throws ExecutionException, InterruptedException, AutomationException {
