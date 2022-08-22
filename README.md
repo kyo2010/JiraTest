@@ -9,5 +9,8 @@ JiraAutomationJavaAPI - based on Java Jira API
 JiraAutomationRest - based on Jira API
 </pre>
 
-Add an alternative Rest Client without Jira Java API.
-Add rest API test
+<pre>
+Log:
+2022-08-20 Add rest API test
+2022-08-19 Add an alternative Rest Client without Jira Java API.
+</pre>
