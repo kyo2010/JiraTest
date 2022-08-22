@@ -8,45 +8,18 @@
 <h3><a href="/controlPanel">Jira control panel</a></h3>
 Host: <b><span th:text="${host}"></span></b><br/>
 User: <b><span th:text="${user}"></span></b><br/>
-<p><form action="/controlPanel" method="post">
-      <input type="hidden" name="mode" value="projectList"/>
-      <button name="submit">Project List</button>
-</form></p>
-<p><form action="/controlPanel" method="post">
-    <input type="hidden" name="mode" value="getMetaData"/>
-    <button name="submit">Get Metadata</button>
-</form></p>
-<p><form action="/controlPanel" method="post">
-    <input type="hidden" name="mode" value="projectInfo"/>
-    <button name="submit">PR Project Info</button>
-</form></p>
-<p><form action="/controlPanel" method="post">
-    <input type="hidden" name="mode" value="createIssue"/>
-    <button name="submit">Create Issue for PR</button>
-</form></p>
 
 <p><form action="/controlPanel" method="post">
     <input type="hidden" name="mode" value="execute_process"/>
     <button name="submit">Run XML automation process</button>
 </form></p>
+<p><form action="/controlPanel" method="post">
+    <input type="hidden" name="mode" value="execute_process2"/>
+    <button name="submit">Run XML automation process 2</button>
+</form></p>
 
 <p>
     Result : <b><th:block th:utext="${result}"/></b>
 </p>
-
-<script>
-  function httpGet(theUrl)
-  {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false );
-    xmlHttp.send( null );
-    return xmlHttp.responseText;
-  }
-
-  function connect(){
-    httpGet("/controlPanel?mode=connect");
-    document.getElementById("connect_status").innerHTML  = "connecting...";
-  }
-</script>
 </body>
 </html>

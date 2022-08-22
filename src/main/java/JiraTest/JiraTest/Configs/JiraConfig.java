@@ -14,8 +14,6 @@ import javax.annotation.PostConstruct;
 @RequiredArgsConstructor
 public class JiraConfig {
 
-    private final Environment environment;
-
     @Value("${jira.user}")
     @Getter
     private String jiraUser = "";

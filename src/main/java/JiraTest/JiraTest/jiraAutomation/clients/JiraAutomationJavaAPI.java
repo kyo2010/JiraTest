@@ -30,7 +30,7 @@ public class JiraAutomationJavaAPI implements IAutomationJiraClient {
     private String lastErrorMessage = null;
 
     @PostConstruct
-    public void PostConstroct() {
+    public void init() {
         try {
             restClient =  new AsynchronousJiraRestClientFactory().createWithBasicHttpAuthentication(URI.create(jiraConfig.getJiraHost()), jiraConfig.getJiraUser(), jiraConfig.getJiraToken());
         }catch(Exception e){
