@@ -12,5 +12,6 @@ JiraAutomationRest - based on Jira API
 <pre>
 Log:
 2022-08-20 Add rest API test
+2022-08-20 Add Jackson
 2022-08-19 Add an alternative Rest Client without Java Jira API.
 </pre>
