@@ -4,19 +4,20 @@ import JiraTest.JiraTest.Configs.JiraConfig;
 import JiraTest.JiraTest.jiraAutomation.AutomationException;
 import JiraTest.JiraTest.jiraAutomation.clients.JiraAutomationJavaAPI;
 import JiraTest.JiraTest.jiraAutomation.clients.JiraAutomationRest;
+import JiraTest.JiraTest.jiraAutomation.clients.HttpRestExecuter;
 import com.atlassian.jira.rest.client.api.domain.BasicProject;
-import com.atlassian.jira.rest.client.api.domain.Project;
-import lombok.RequiredArgsConstructor;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.Assert;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -35,15 +36,28 @@ class JiraTestApplicationTests {
 	@Autowired
 	private JiraAutomationRest jiraAutomationRest;
 
+	@Autowired
+	@MockBean
+	private HttpRestExecuter restExecuter;
+
 	@Test
-	void unitTest() throws ExecutionException, InterruptedException, AutomationException {
+	void configTest() {
 		Assert.hasText(config.getJiraHost(),"Jira host is empty!");
 		Assert.hasText(config.getJiraUser(),"Jira user is empty!");
 		Assert.hasText(config.getJiraToken(),"Jira token is empty!");
 	}
 
 	@Test
-	void integrationTest() throws ExecutionException, InterruptedException, AutomationException {
+	void checkRestApi() throws AutomationException, JSONException {
+		Mockito.when(restExecuter.executeTask("rest/api/2/project/PR",null)).thenReturn(new JSONObject(
+				"{ issueTypes: [ { id: 3,name:'Task' }] }"));
+		Map<String,Long>issueTypes = jiraAutomationRest.getTaskIdByName("PR");
+		log.info("Issue Types : ");
+		issueTypes.forEach((k,v)->{log.info("  name:"+k+" id:"+v);});
+		Assert.notNull(issueTypes,"Check issues types for PR");
+	}
+
+	void checkJiraAvailable() throws ExecutionException, InterruptedException, AutomationException {
 		// Check Java Jira API
 		Iterable<BasicProject> projects = jiraAutomation.getRestClient().getProjectClient().getAllProjects().get();
 		log.info("Projects : ");
