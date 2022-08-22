@@ -5,6 +5,8 @@ import JiraTest.JiraTest.jiraAutomation.AutomationException;
 import JiraTest.JiraTest.jiraAutomation.clients.JiraAutomationJavaAPI;
 import JiraTest.JiraTest.jiraAutomation.clients.JiraAutomationRest;
 import JiraTest.JiraTest.jiraAutomation.clients.HttpRestExecuter;
+import JiraTest.JiraTest.jiraAutomation.processes.XMLUploaderProcess;
+import JiraTest.JiraTest.jiraAutomation.processes.xmlStructures.XMLIssue;
 import com.atlassian.jira.rest.client.api.domain.BasicProject;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -18,6 +20,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.Assert;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -37,6 +40,9 @@ class JiraTestApplicationTests {
 	private JiraAutomationRest jiraAutomationRest;
 
 	@Autowired
+	private XMLUploaderProcess xmlUploaderProcess;
+
+	@Autowired
 	@MockBean
 	private HttpRestExecuter restExecuter;
 
@@ -45,6 +51,12 @@ class JiraTestApplicationTests {
 		Assert.hasText(config.getJiraHost(),"Jira host is empty!");
 		Assert.hasText(config.getJiraUser(),"Jira user is empty!");
 		Assert.hasText(config.getJiraToken(),"Jira token is empty!");
+	}
+
+	@Test
+	void checkXMLReader() throws AutomationException {
+		List<XMLIssue> issues = xmlUploaderProcess.parseXML();
+		Assert.state(issues.size()==3,"Check xml issues count");
 	}
 
 	@Test
