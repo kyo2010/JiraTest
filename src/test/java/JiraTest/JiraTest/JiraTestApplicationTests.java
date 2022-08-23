@@ -59,7 +59,7 @@ class JiraTestApplicationTests {
 		Assert.state(issues.size()==3,"Check xml issues count");
 	}
 
-
+	@Test
 	void checkRestApi() throws AutomationException, JSONException {
 		Mockito.when(restExecuter.executeTask("rest/api/2/project/PR",null)).thenReturn(
 				"{ issueTypes: [ { id: 3,name:'Task' }] }");

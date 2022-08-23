@@ -4,6 +4,7 @@ package JiraTest.JiraTest.jiraAutomation.clients;
 import JiraTest.JiraTest.jiraAutomation.AutomationException;
 import JiraTest.JiraTest.jiraAutomation.clients.jiraModels.JiraIssueType;
 import JiraTest.JiraTest.jiraAutomation.clients.jiraModels.JiraProject;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -39,6 +40,12 @@ public class JiraAutomationRest implements IAutomationJiraClient {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final HttpRestExecuter restExecuter;
     private ObjectMapper mapper = new ObjectMapper();
+
+    @PostConstruct
+    private void init(){
+        mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+        mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+    }
 
     private static String getBasicAuthenticationHeader(String username, String password) {
         String valueToEncode = username + ":" + password;
