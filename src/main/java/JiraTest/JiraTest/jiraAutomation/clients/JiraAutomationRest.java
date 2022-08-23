@@ -2,6 +2,9 @@ package JiraTest.JiraTest.jiraAutomation.clients;
 
 
 import JiraTest.JiraTest.jiraAutomation.AutomationException;
+import JiraTest.JiraTest.jiraAutomation.clients.jiraModels.JiraIssueType;
+import JiraTest.JiraTest.jiraAutomation.clients.jiraModels.JiraProject;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +19,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.io.DataInput;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,50 +38,20 @@ public class JiraAutomationRest implements IAutomationJiraClient {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final HttpRestExecuter restExecuter;
+    private ObjectMapper mapper = new ObjectMapper();
 
     private static String getBasicAuthenticationHeader(String username, String password) {
         String valueToEncode = username + ":" + password;
         return "Basic " + Base64.getEncoder().encodeToString(valueToEncode.getBytes());
     }
 
-    public static void main (String[] args){
-        HttpClient client = HttpClientBuilder.create().build();
-        HttpResponse response;
-        try {
-            // priority list
-            String uri = "https://kkv2022.atlassian.net/rest/api/2/priority";
-            // IssueType List
-            //String uri = "https://kkv2022.atlassian.net/rest/api/2/issuetype";
-            // Project list
-            //"https://kkv2022.atlassian.net/rest/api/2/project/10001"
-            //String uri = "https://kkv2022.atlassian.net/rest/api/2/project";
-            // Project Info
-            //String prjKey = "PR";
-            //String uri = "https://kkv2022.atlassian.net/rest/api/2/project/"+prjKey;
-            //  https://developer.atlassian.com/cloud/jira/platform/rest/v2/api-group-issue-priorities/
-            HttpGet httpRequest = new HttpGet(uri);
-            String jira_token = System.getenv().get("JIRA_TOKEN");
-            httpRequest.addHeader("Authorization",getBasicAuthenticationHeader("k.kimlaev@gmail.com",jira_token));
-            response = client.execute(httpRequest);
-            int statusCode = response.getStatusLine().getStatusCode();
-            System.out.println("Response Code :"+ statusCode);
-            String json = EntityUtils.toString(response.getEntity());
-            System.out.println("Response:"+json);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public Map<String, Long> getTaskIdByName(String projectKey) throws AutomationException {
         Map<String, Long> result = new HashMap<>();
         try {
-            JSONObject project = restExecuter.executeTask("rest/api/2/project/" + projectKey, null);
-            JSONArray types = project.getJSONArray("issueTypes");
-            for (int i=0; i<types.length(); i++){
-                JSONObject type = types.getJSONObject(i);
-                result.put(type.getString("name"),Long.parseLong(type.getString("id")));
-            }
+            String response = restExecuter.executeTask("rest/api/2/project/" + projectKey, null);
+            JiraProject jProj = mapper.readValue(response,JiraProject.class);
+            jProj.getIssueTypes().forEach(type->result.put(type.getName(),Long.parseLong(type.getId())));
         }catch(Exception e){
            log.error("error",e);
            throw new AutomationException("Reading result is error",e.getMessage());
@@ -100,7 +76,7 @@ public class JiraAutomationRest implements IAutomationJiraClient {
 
           String payloadString = payload.toString();
 
-          JSONObject createdIssue = restExecuter.executeTask("rest/api/2/issue",payloadString);
+          JSONObject createdIssue = new JSONObject(restExecuter.executeTask("rest/api/2/issue",payloadString));
 
           return createdIssue.get("key").toString();
         }catch(Exception e){

@@ -59,10 +59,10 @@ class JiraTestApplicationTests {
 		Assert.state(issues.size()==3,"Check xml issues count");
 	}
 
-	@Test
+
 	void checkRestApi() throws AutomationException, JSONException {
-		Mockito.when(restExecuter.executeTask("rest/api/2/project/PR",null)).thenReturn(new JSONObject(
-				"{ issueTypes: [ { id: 3,name:'Task' }] }"));
+		Mockito.when(restExecuter.executeTask("rest/api/2/project/PR",null)).thenReturn(
+				"{ issueTypes: [ { id: 3,name:'Task' }] }");
 
 		Map<String,Long>issueTypes = jiraAutomationRest.getTaskIdByName("PR");
 		log.info("Issue Types : ");
@@ -71,7 +71,7 @@ class JiraTestApplicationTests {
 		Assert.state(issueTypes.size()==1,"Check issueType size");
 	}
 
-	void checkJiraAvailable() throws ExecutionException, InterruptedException, AutomationException {
+	void checkJiraConnection() throws ExecutionException, InterruptedException, AutomationException {
 		// Check Java Jira API
 		Iterable<BasicProject> projects = jiraAutomation.getRestClient().getProjectClient().getAllProjects().get();
 		log.info("Projects : ");

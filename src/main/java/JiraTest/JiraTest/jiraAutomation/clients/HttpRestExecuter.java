@@ -30,7 +30,7 @@ public class HttpRestExecuter {
         return "Basic " + Base64.getEncoder().encodeToString(valueToEncode.getBytes());
     }
 
-    public JSONObject executeTask(String request, String payload)throws AutomationException {
+    public String executeTask(String request, String payload)throws AutomationException {
         HttpClient client = HttpClientBuilder.create().build();
         HttpResponse response;
         try {
@@ -59,9 +59,7 @@ public class HttpRestExecuter {
             log.info("Response Code :"+ statusCode);
             String json = EntityUtils.toString(response.getEntity());
             log.info("Response:"+json);
-            JSONObject obj = null;
-            if (json!=null && !json.equals("")) obj = new JSONObject(json);
-            return obj;
+            return json;
         } catch (Exception e) {
             log.error("API execution is error",e);
             throw new AutomationException("API execution is error",e.getCause(),e.getMessage());
